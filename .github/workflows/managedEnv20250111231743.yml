@@ -1,0 +1,36 @@
+on:
+  push:
+    branches:
+    - Deploy
+env:
+  DOTNET_CORE_VERSION: 7.0.x
+  CONTAINER_APP_NAME: product.webapi-container-app
+  CONTAINER_APP_ENVIRONMENT_NAME: managedEnv20250111231743
+  RESOURCE_GROUP: managedEnv20250111231743ResourceGroup
+  CONTAINER_REGISTRY_NAME: registry20250111232115
+  CONTAINER_REGISTRY_LOGIN_SERVER: registry20250111232115.azurecr.io
+jobs:
+  BuildAndDeployContainerApp:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v4
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
+    - name: Azure login
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.managedEnv20250111231743_SPN }}
+    - name: Container App deploy
+      uses: azure/container-apps-deploy-action@v1
+      with:
+        appSourcePath: ${{ github.workspace }}
+        acrName: ${{ env.CONTAINER_REGISTRY_NAME }}
+        acrUsername: ${{ secrets.registry20250111232115_USERNAME_072A }}
+        acrPassword: ${{ secrets.registry20250111232115_PASSWORD_072A }}
+        imageToBuild: ${{ env.CONTAINER_REGISTRY_LOGIN_SERVER }}/${{ env.CONTAINER_APP_NAME }}:${{ github.sha }}
+        containerAppName: ${{ env.CONTAINER_APP_NAME }}
+        containerAppEnvironment: ${{ env.CONTAINER_APP_ENVIRONMENT_NAME }}
+        resourceGroup: ${{ env.RESOURCE_GROUP }}

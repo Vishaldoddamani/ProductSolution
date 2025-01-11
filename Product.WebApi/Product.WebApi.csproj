@@ -7,6 +7,7 @@
     <InvariantGlobalization>true</InvariantGlobalization>
     <UserSecretsId>eab6da45-3ac0-44fc-84c2-61e6ee62d4b7</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,6 +24,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Product.Infrastructure\Product.Infrastructure.csproj" />
+    <ProjectReference Include="..\ProductSolution.ServiceDefaults\ProductSolution.ServiceDefaults.csproj" />
   </ItemGroup>
 
 </Project>

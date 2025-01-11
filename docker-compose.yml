@@ -1,0 +1,6 @@
+services:
+  product.webapi:
+    image: ${DOCKER_REGISTRY-}productwebapi
+    build:
+      context: .
+      dockerfile: Product.WebApi/Dockerfile
