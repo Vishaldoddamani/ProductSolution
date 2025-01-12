@@ -19,6 +19,8 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
+    - name: Apply migrations
+      run: dotnet ef database update --project Product.WebApi
     - name: Azure login
       uses: azure/login@v2
       with:

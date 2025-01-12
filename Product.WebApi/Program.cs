@@ -17,7 +17,7 @@ builder.Services.AddControllers();
 // Configures the EF core to use in memory database using Microsoft.EntityFrameworkCore.InMemory package and uses other ef core packaged for persisting the data.
 builder.Services.AddDbContextPool<ProductDbContext>(
     options =>
-         options.UseSqlite("Data Source=product.db"));
+         options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddEndpointsApiExplorer();
 

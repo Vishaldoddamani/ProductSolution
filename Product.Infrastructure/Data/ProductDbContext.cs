@@ -1,8 +1,8 @@
-using Microsoft.EntityFrameworkCore;
-using Prod = Product.Domain.Entities;
-
 namespace Product.Infrastructure.Data
 {
+    using Microsoft.EntityFrameworkCore;
+    using Prod = Product.Domain.Entities;
+
     public class ProductDbContext : DbContext
     {
         public ProductDbContext(DbContextOptions<ProductDbContext> options)
