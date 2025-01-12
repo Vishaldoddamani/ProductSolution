@@ -19,8 +19,10 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
-    - name: Apply migrations
-      run: dotnet ef database update --project Product.WebApi
+    - name: Install dotnet-ef tool
+      run: dotnet tool install --global dotnet-ef
+    - name: Add dotnet tools to PATH
+      run: echo "::add-path::$(dotnet tool list -g | grep dotnet-ef | awk '{print $3}')
     - name: Azure login
       uses: azure/login@v2
       with:

@@ -29,16 +29,5 @@ RUN dotnet publish "./Product.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/pub
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
-
-# Install dotnet-ef tool
-RUN dotnet tool install --global dotnet-ef
-
-# Add dotnet tools to PATH
-ENV PATH="$PATH:/root/.dotnet/tools"
-
-# Apply migrations
-RUN dotnet ef database update --project /src/Product.WebApi --startup-project /src/Product.WebApi
-
-
+COPY --from=publish /app/publish . 
 ENTRYPOINT ["dotnet", "Product.WebApi.dll"]
