@@ -3,7 +3,7 @@ on:
     branches:
     - Deploy
 env:
-  DOTNET_CORE_VERSION: 7.0.x
+  DOTNET_CORE_VERSION: 8.0.x
   CONTAINER_APP_NAME: productcontainerapp
   CONTAINER_APP_ENVIRONMENT_NAME: managedEnv20250111231743
   RESOURCE_GROUP: managedEnv20250111231743ResourceGroup
@@ -19,10 +19,6 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
-    - name: Install dotnet-ef tool
-      run: dotnet tool install --global dotnet-ef
-    - name: Add dotnet tools to PATH
-      run: echo "::add-path::$(dotnet tool list -g | grep dotnet-ef | awk '{print $3}')
     - name: Azure login
       uses: azure/login@v2
       with:
