@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
 using Product.Application.Interfaces;
 using Product.Application.Services;
@@ -11,7 +12,9 @@ builder.AddServiceDefaults();
 //Middleware code to configure various services and intercept and code accordingly.
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddOData(options => 
+        options.Select().Filter().OrderBy().Expand().Count().SetMaxTop(100));
+    ;
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
 // Configures the EF core to use in memory database using Microsoft.EntityFrameworkCore.InMemory package and uses other ef core packaged for persisting the data.
@@ -37,7 +40,37 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 // Handling Multiple Data Sources etc
 builder.Services.AddScoped<ProductService>();
 
+// Configure CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+        builder =>
+        {
+            builder.WithOrigins("https://localhost:57265")
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
+
 var app = builder.Build();
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ProductDbContext>();
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+    try
+    {
+        dbContext.Database.Migrate();
+        logger.LogInformation("Database migrations applied successfully.");
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "An error occurred while applying database migrations.");
+    }
+}
 
 app.MapDefaultEndpoints();
 
@@ -48,12 +81,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowAllOrigins");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
 
+app.MapFallbackToFile("/index.html");
 app.Run();
 
 public partial class Program { }

@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductSolution.AppHost", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductSolution.ServiceDefaults", "ProductSolution.ServiceDefaults\ProductSolution.ServiceDefaults.csproj", "{0829D38B-F3EC-440D-B296-6DDFA6E6903A}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "angularapp1.client", "angularapp1.client\angularapp1.client.esproj", "{3A831251-C35F-4180-B66A-A847E21435C4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,12 @@ Global
 		{0829D38B-F3EC-440D-B296-6DDFA6E6903A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0829D38B-F3EC-440D-B296-6DDFA6E6903A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0829D38B-F3EC-440D-B296-6DDFA6E6903A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A831251-C35F-4180-B66A-A847E21435C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A831251-C35F-4180-B66A-A847E21435C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A831251-C35F-4180-B66A-A847E21435C4}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{3A831251-C35F-4180-B66A-A847E21435C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A831251-C35F-4180-B66A-A847E21435C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A831251-C35F-4180-B66A-A847E21435C4}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

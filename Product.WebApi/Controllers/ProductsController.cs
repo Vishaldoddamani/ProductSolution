@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.RateLimiting;
 using Product.Application.Services;
 using Prod = Product.Domain.Entities;
 
@@ -21,6 +23,7 @@ namespace Product.WebApi.Controllers
         /// </summary>
         /// <returns>Json Product.</returns>
         [HttpGet]
+        [EnableQuery]
         public async Task<IReadOnlyCollection<Prod.Product>> GetAllProducts()
         {
             return await _productService.GetAllProductsAsync();
@@ -35,6 +38,7 @@ namespace Product.WebApi.Controllers
         /// <param name="id">Id</param>
         /// <returns>Product</returns>
         [HttpGet("{id}")]
+        
         public async Task<IActionResult> GetProductById(int id)
         {
             if (id == 0)
