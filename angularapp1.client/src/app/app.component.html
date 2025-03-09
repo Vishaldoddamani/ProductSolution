@@ -1,46 +1,67 @@
-<h1 id="tableLabel">Weather forecast</h1>
+<!-- src/app/components/products/products.component.html -->
+<div class="container mx-auto p-4">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="fixed inset-0 flex items-center justify-center bg-gray-100 bg-opacity-75">
+    <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
+  </div>
 
-<p>This component demonstrates fetching data from the server.</p>
+  <!-- Product List -->
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-200">
+      <thead>
+        <tr>
+          <th class="py-2 px-4 border-b">Name</th>
+          <th class="py-2 px-4 border-b">Price</th>
+          <th class="py-2 px-4 border-b">Description</th>
+          <th class="py-2 px-4 border-b">Created Date</th>
+          <th class="py-2 px-4 border-b">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products" class="hover:bg-gray-100">
+          <td class="py-2 px-4 border-b">{{product.name}}</td>
+          <td class="py-2 px-4 border-b">${{product.price}}</td>
+          <td class="py-2 px-4 border-b">{{product.description}}</td>
+          <td class="py-2 px-4 border-b">{{product.createdDate | date:'short'}}</td>
+          <td class="py-2 px-4 border-b">
+            <button class="text-blue-500 hover:text-blue-700" (click)="selectProduct(product)">Edit</button>
+            <button class="text-red-500 hover:text-red-700 ml-2" (click)="deleteProduct(product.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
+  <!-- Create/Edit Form -->
+  <div class="mt-8">
+    <form [formGroup]="productForm" (ngSubmit)="selectedProduct ? updateProduct(selectedProduct.id) : createProduct()">
+      <div class="mb-4">
+        <label class="block text-gray-700">Name</label>
+        <input class="w-full px-3 py-2 border rounded" formControlName="name" required>
+        <div *ngIf="productForm.get('name')?.errors?.['required']" class="text-red-500 text-sm">Name is required</div>
+      </div>
 
-<p *ngIf="!products"> Loading</p>
+      <div class="mb-4">
+        <label class="block text-gray-700">Price</label>
+        <input class="w-full px-3 py-2 border rounded" formControlName="price" type="number" required>
+        <div *ngIf="productForm.get('price')?.errors?.['required']" class="text-red-500 text-sm">Price is required</div>
+        <div *ngIf="productForm.get('price')?.errors?.['min']" class="text-red-500 text-sm">Price must be greater than 0</div>
+      </div>
 
-<table *ngIf="products">
-  <thead>
-    <tr>
-      <th>
-        ID
-      </th>
-      <th>
-        Name
-      </th>
-      <th>
-        Price
-      </th>
-      <th>
-        Description
-      </th>
-    </tr>
-  </thead>
-  <tbody >
-    <tr *ngFor="let product of  products">
-      <td>
-        {{product.id}}
-      </td>
-      <td>
-        {{product.name}}
-      </td>
-      <td>
-        {{product.price}}
-      </td>
-      <td>
-        {{product.description}}
-      </td>
-    </tr>
-  </tbody>
-</table>
+      <div class="mb-4">
+        <label class="block text-gray-700">Description</label>
+        <textarea class="w-full px-3 py-2 border rounded" formControlName="description" required></textarea>
+        <div *ngIf="productForm.get('description')?.errors?.['required']" class="text-red-500 text-sm">Description is required</div>
+      </div>
 
-
-
-
-
+      <div class="flex items-center">
+        <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700" type="submit">
+          {{ selectedProduct ? 'Update' : 'Create' }}
+        </button>
+        <button class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700 ml-2" type="reset" (click)="resetForm()">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
