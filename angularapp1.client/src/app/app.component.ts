@@ -89,10 +89,12 @@ export class AppComponent implements OnInit {
   }
 
   resetForm(): void {
-     
+    this.selectedProduct = undefined; 
+
+    this.productForm.reset();
+    this.productForm.clearValidators(); 
     this.productForm.markAsPristine();
     this.productForm.markAsUntouched();
-    this.productForm.updateValueAndValidity();
   }
 
   selectProduct(product: Product): void {
