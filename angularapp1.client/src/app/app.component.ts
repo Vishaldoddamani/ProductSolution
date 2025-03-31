@@ -2,9 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../app/services/product.service';
 import { Product } from '../app/models/product';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { FormGroup, FormControl, Validators } from '@angular/forms'; 
 
 @Component({
   selector: 'app-root',
@@ -25,7 +23,7 @@ export class AppComponent implements OnInit {
     description: new FormControl('', [Validators.required])
   });
 
-  constructor(private productService: ProductService) { }
+  constructor(private readonly productService: ProductService) { }
 
   ngOnInit(): void {
     this.loadProducts();
@@ -46,36 +44,45 @@ export class AppComponent implements OnInit {
   }
 
   createProduct(): void {
-    const productData: Omit<Product, 'id'> = {
-      name: this.productForm.value.name!,
-      price: this.productForm.value.price!,
-      description: this.productForm.value.description!,
-      createdDate: new Date().toISOString()
-    };
-    this.productService.createProduct(productData).subscribe({
-      next: () => {
-        this.loadProducts();
-        this.resetForm();
-      },
-      error: (error) => console.error(error)
-    });
+
+    if (this.productForm.valid) {
+
+      const productData: Omit<Product, 'id'> = {
+        name: this.productForm.value.name!,
+        price: this.productForm.value.price!,
+        description: this.productForm.value.description!,
+        createdDate: new Date().toISOString()
+      };
+      this.productService.createProduct(productData).subscribe({
+        next: () => {
+          this.loadProducts();
+          this.productForm.reset();
+          this.resetForm();
+        },
+        error: (error) => console.error(error)
+      });
+
+    }
   }
 
   updateProduct(id: number): void {
-    const productData: Product = {
-      id: this.productForm.value.id!,
-      name: this.productForm.value.name!,
-      price: this.productForm.value.price!,
-      description: this.productForm.value.description!,
-      createdDate: this.selectedProduct?.createdDate || new Date().getDate().toString() 
-    };
-    this.productService.updateProduct(id, productData).subscribe({
-      next: () => {
-        this.loadProducts();
-        this.resetForm();
-      },
-      error: (error) => console.error(error)
-    });
+    if (this.productForm.valid) {
+       
+      const productData: Product = {
+        id: this.productForm.value.id!,
+        name: this.productForm.value.name!,
+        price: this.productForm.value.price!,
+        description: this.productForm.value.description!,
+        createdDate: this.selectedProduct?.createdDate || new Date().getDate().toString()
+      };
+      this.productService.updateProduct(id, productData).subscribe({
+        next: () => {
+          this.loadProducts();
+          this.resetForm();
+        },
+        error: (error) => console.error(error)
+      });
+    }
   }
 
 
@@ -89,7 +96,7 @@ export class AppComponent implements OnInit {
   }
 
   resetForm(): void {
-    this.selectedProduct = undefined; 
+    this.selectedProduct = undefined;
 
     this.productForm.reset();
     this.productForm.clearValidators(); 

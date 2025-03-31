@@ -104,5 +104,12 @@ namespace Product.WebApi.Controllers
             return NoContent();
         }
         #endregion
+
+        //endpoint  that throws exception
+        [HttpGet("endpoint-that-throws-exception")]
+        public async Task<IActionResult> GetException()
+        {
+            throw new Exception("Test exception");
+        }
     }
 }

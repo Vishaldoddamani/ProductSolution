@@ -72,6 +72,8 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.
